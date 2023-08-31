@@ -1,0 +1,24 @@
+server:
+  tomcat:
+    remoteip:
+      remote-ip-header: x-forwarded-for
+      protocol-header: x-forwarded-proto
+  servlet:
+    session:
+      cookie:
+        name: AUTH_JSESSIONID
+  port: 9000
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+config:
+  issuer-uri: https://auth.tt.exchange
+  redirect-uri: https://tt.exchange
