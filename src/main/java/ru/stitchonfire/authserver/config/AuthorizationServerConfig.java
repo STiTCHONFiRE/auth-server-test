@@ -5,7 +5,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import org.hibernate.id.uuid.UuidGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -90,13 +89,13 @@ public class AuthorizationServerConfig {
 
     @Bean
     @Order(3)
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, @Value("${config.redirect-uri}") String redirectUri, UserDetailsServiceImpl userDetailsService) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, UserDetailsServiceImpl userDetailsService) throws Exception {
         http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
                 .userDetailsService(userDetailsService)
                 .formLogin(formLogin -> formLogin.loginPage("/login").permitAll())
-                .logout(logout -> logout.logoutUrl("/logout").permitAll().logoutSuccessHandler(new CustomLogoutSuccessHandler(redirectUri)));
+                .logout(logout -> logout.logoutUrl("/logout").permitAll());
 
         return http.build();
     }
@@ -195,5 +194,4 @@ public class AuthorizationServerConfig {
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
-
 }
