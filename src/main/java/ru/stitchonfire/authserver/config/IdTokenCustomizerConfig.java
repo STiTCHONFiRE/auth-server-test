@@ -14,7 +14,14 @@ public class IdTokenCustomizerConfig {
             /*if (OidcParameterNames.ID_TOKEN.equals(context.getTokenType().getValue()) && context.getAuthorizedScopes().contains(OidcScopes.PROFILE)) {
 
             }*/
-            context.getClaims().claim("authorities", context.getPrincipal().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
+            context.getClaims()
+                    .claim(
+                            "authorities",
+                            context.getPrincipal().getAuthorities()
+                                    .stream()
+                                    .map(GrantedAuthority::getAuthority)
+                                    .toList()
+                    );
         };
     }
 }
