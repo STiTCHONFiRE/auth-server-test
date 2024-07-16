@@ -9,6 +9,11 @@ config:
   issuer-uri: http://localhost:9000
   redirect-uri: http://localhost:4200
 
+users:
+  admin:
+    username: admin
+    password: test
+
 spring:
   application:
     name: auth-server

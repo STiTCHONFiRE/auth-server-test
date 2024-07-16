@@ -48,14 +48,19 @@ import java.util.UUID;
 @EnableWebSecurity
 public class AuthorizationServerConfig {
 
-    // http://localhost:8080/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=http://127.0.0.1:3000/authorized&code_challenge=QYPAZ5NU8yvtlQ9erXrUYR-T5AGCjCF47vN-KsaI2A8&code_challenge_method=S256
-    // http://localhost:8080/oauth2/token?client_id=client&redirect_uri=http://127.0.0.1:3000/authorized&grant_type=authorization_code&code=MJ5WmUiOAnVFHi9BS6PS5dqHvO56fHkQVqR8gUg-yOmpgohvsFmH4xU6lFcwwDN0nkAcYdldOROnhAhf0cDROu-PgSup94fx28geM4p08TSEZ_c9c9vkL_yy34WBfnyY&code_verifier=qPsH306-ZDDaOE8DFzVn05TkN3ZZoVmI_6x4LsVglQI
+    /**
+     * Настройка безопасности для OAuth 2.0 Authorization Server.
+     *
+     * @param http объект HttpSecurity, который используется для настройки безопасности.
+     * @return экземпляр SecurityFilterChain, который представляет собой цепочку фильтров безопасности.
+     * @throws Exception в случае возникновения исключений при настройке безопасности.
+     */
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
+                .oidc(Customizer.withDefaults());    // Enable OpenID Connect 1.0
 
         http
                 .cors(Customizer.withDefaults())
@@ -79,7 +84,7 @@ public class AuthorizationServerConfig {
                 .securityMatcher("api/v1/users/**")
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().hasAuthority("lol")
+                        .anyRequest().hasAuthority("admin")
                 )
                 .oauth2ResourceServer(resourceServer -> resourceServer
                         .jwt(Customizer.withDefaults())
@@ -183,8 +188,7 @@ public class AuthorizationServerConfig {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             keyPair = keyPairGenerator.generateKeyPair();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new IllegalStateException(ex);
         }
         return keyPair;

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import ru.stitchonfire.authserver.dto.CreateUserDto;
 import ru.stitchonfire.authserver.dto.UserDto;
 import ru.stitchonfire.authserver.mapper.UserMapper;
-import ru.stitchonfire.authserver.model.User;
 import ru.stitchonfire.authserver.repository.UserRepository;
 
 import java.util.List;

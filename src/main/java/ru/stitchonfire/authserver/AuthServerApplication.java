@@ -1,6 +1,10 @@
 package ru.stitchonfire.authserver;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -12,23 +16,40 @@ import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthServerApplication {
 
-	private final UserDetailsServiceImpl userDetailsService;
+    UserDetailsServiceImpl userDetailsService;
 
-	public static void main(String[] args) {
-		SpringApplication.run(AuthServerApplication.class, args);
-	}
+    @NonFinal
+    @Value("${users.admin.username}")
+    private String username;
+    @NonFinal
+    @Value("${users.admin.password}")
+    private String password;
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void createUser() {
-		userDetailsService.createUserInner(
-				CreateUserDto.builder()
-						.authorities(List.of("lol"))
-						.isEnabled(true)
-						.userName("test")
-						.password("test")
-						.build()
-		);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AuthServerApplication.class, args);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void createUser() {
+        userDetailsService.createUserInner(
+                CreateUserDto.builder()
+                        .authorities(List.of("admin"))
+                        .isEnabled(true)
+                        .userName(username)
+                        .password(password)
+                        .build()
+        );
+
+        userDetailsService.createUserInner(
+                CreateUserDto.builder()
+                        .authorities(List.of("user"))
+                        .isEnabled(true)
+                        .userName("user")
+                        .password(password)
+                        .build()
+        );
+    }
 }

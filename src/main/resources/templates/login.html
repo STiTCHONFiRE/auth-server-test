@@ -32,7 +32,7 @@
                         d="M50 36.667c-7.363 0-13.333 5.97-13.333 13.333S42.637 63.333 50 63.333c7.366 0 13.333-5.97 13.333-13.333S57.366 36.667 50 36.667zm0 20a6.667 6.667 0 1 1 0-13.334 6.667 6.667 0 0 1 0 13.334z"/>
             </svg>
             <div class="text-center text-lg m-3 flex flex-wrap justify-center items-center" style="font-family: 'Montserrat', sans-serif; font-size: 50px">
-                <span class="text-primary my-2">Asic</span> <span class="my-3">Dashboard</span>
+                <span class="text-primary my-2">Test</span> <span class="my-3">Dashboard</span>
             </div>
         </div>
         <div class="flex flex-col lg:flex-row-reverse">
@@ -40,6 +40,8 @@
                 <h1 style="font-size: 30px" th:text="#{tittle}"></h1>
                 <p class="my-3 py-3" th:text="#{description}"></p>
             </div>
+            <div class="text-red" th:if="${param.error}">
+                Invalid username and password.</div>
             <div class="card flex-shrink-0 w-11/12 max-w-sm shadow-2xl bg-base-100 m-5">
                 <form class="card-body" th:action="@{/login}" method="post">
                     <div class="form-control">

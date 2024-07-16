@@ -10,8 +10,6 @@ server:
   port: 9000
 
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -20,5 +18,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 config:
-  issuer-uri: https://auth.tt.exchange
-  redirect-uri: https://tt.exchange
+  issuer-uri: https://sso.fuckingamazing.exchange
+  redirect-uri: https://fuckingamazing.exchange
