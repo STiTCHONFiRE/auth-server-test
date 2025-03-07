@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.1</version>
+		<version>3.4.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.stitchonfire</groupId>
@@ -14,23 +14,8 @@
 	<name>auth-server</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>20</java.version>
-		<image>ghcr.io/stitchonfire/tg-auth-server:${project.version}</image>
+		<java.version>23</java.version>
 	</properties>
-
-	<profiles>
-		<profile>
-			<id>build-docker-image</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.google.cloud.tools</groupId>
-						<artifactId>jib-maven-plugin</artifactId>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -68,7 +53,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.5.5.Final</version>
+			<version>1.6.3</version>
 		</dependency>
 	</dependencies>
 
@@ -77,20 +62,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.13.0</version>
 				<configuration>
-					<source>20</source>
-					<target>20</target>
+					<source>23</source>
+					<target>23</target>
+					<parameters>true</parameters>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.5.5.Final</version>
+							<version>1.6.3</version>
 						</path>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.28</version>
+							<version>1.18.36</version>
 						</path>
 						<path>
 							<groupId>org.projectlombok</groupId>
@@ -104,39 +90,6 @@
 						</compilerArg>
 					</compilerArgs>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.3.2</version>
-				<configuration>
-					<from>
-						<image>eclipse-temurin:20</image>
-						<platforms>
-							<platform>
-								<architecture>arm64</architecture>
-								<os>linux</os>
-							</platform>
-							<platform>
-								<architecture>amd64</architecture>
-								<os>linux</os>
-							</platform>
-						</platforms>
-					</from>
-					<to>
-						<tags>
-							<tag>latest</tag>
-						</tags>
-					</to>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
