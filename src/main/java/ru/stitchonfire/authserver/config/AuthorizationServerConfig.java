@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -96,8 +97,13 @@ public class AuthorizationServerConfig {
     @Order(3)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, UserDetailsServiceImpl userDetailsService) throws Exception {
         http
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+                .authorizeHttpRequests(authorize ->
+                        authorize.requestMatchers("/actuator/**").permitAll()
+                                .requestMatchers("/swagger-ui.html", "/swagger-ui*/**", "/swagger-resources/*", "/v3/api-docs/**").permitAll()
+                                .anyRequest().permitAll()
+                )
                 .userDetailsService(userDetailsService)
                 .formLogin(formLogin -> formLogin.loginPage("/login").permitAll())
                 .logout(logout -> logout.logoutUrl("/logout").permitAll());

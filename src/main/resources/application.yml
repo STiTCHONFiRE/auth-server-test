@@ -20,7 +20,7 @@ spring:
   datasource:
     password: password
     url: jdbc:postgresql://localhost:5432/auth
-    username: root
+    username: spring_user
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -29,6 +29,12 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
       show-sql: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
 
 logging:
   level:

@@ -5,13 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AuthController {
+
     @GetMapping("login")
     public String login() {
-        return "login";
+        return "index";
     }
 
-    @GetMapping("logout")
-    public String logout() {
-        return "logout";
-    }
+//    @GetMapping("logout")
+//    public String logout() {
+//        return "logout";
+//    }
 }
